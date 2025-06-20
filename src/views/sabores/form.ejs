@@ -1,0 +1,15 @@
+<%- include('../partials/header') %>
+
+<h2><%= sabor ? "Editar Sabor" : "Adicionar Novo Sabor" %> 🍕</h2>
+
+<form action="<%= sabor ? '/sabores/' + sabor.id + '/atualizar' : '/sabores' %>" method="POST">
+  <label>Nome do Sabor:</label><br>
+  <input type="text" name="nome" value="<%= sabor ? sabor.nome : '' %>" required><br><br>
+
+  <label>Preço:</label><br>
+  <input type="number" step="0.01" name="preco" value="<%= sabor ? sabor.preco : '' %>" required><br><br>
+
+  <button type="submit">Salvar</button>
+</form>
+
+<%- include('../partials/footer') %>

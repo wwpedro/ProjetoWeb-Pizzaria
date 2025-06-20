@@ -1,0 +1,17 @@
+<%- include('../partials/header') %>
+
+<h2>Lista de Bebidas 🥤</h2>
+
+<ul>
+  <% bebidas.forEach(bebida => { %>
+    <li>
+      <%= bebida.nome %> - R$ <%= bebida.preco.toFixed(2) %> |
+      <a href="/bebidas/<%= bebida.id %>/editar">Editar</a> |
+      <form action="/bebidas/<%= bebida.id %>/deletar" method="POST" style="display:inline;">
+        <button type="submit">Deletar</button>
+      </form>
+    </li>
+  <% }) %>
+</ul>
+
+<%- include('../partials/footer') %>

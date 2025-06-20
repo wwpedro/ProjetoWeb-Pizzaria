@@ -1,0 +1,30 @@
+<%- include('./partials/header') %>
+
+<h2>Seja bem-vindo à Pizzaria do Pedro 🍕</h2>
+
+<!-- Opção Cliente -->
+<form action="/pedidos/cliente" method="GET">
+  <button type="submit">Sou Cliente</button>
+</form>
+
+<br>
+
+<!-- Opção Administrador -->
+<button onclick="mostrarLogin()">Sou Administrador</button>
+
+<!-- Formulário de Senha para o Admin (escondido até clicar no botão) -->
+<div id="loginAdmin" style="display:none; margin-top: 10px;">
+  <form action="/login-admin" method="POST">
+    <label>Senha de Administrador:</label><br>
+    <input type="password" name="senha" required><br><br>
+    <button type="submit">Entrar</button>
+  </form>
+</div>
+
+<script>
+  function mostrarLogin() {
+    document.getElementById('loginAdmin').style.display = 'block';
+  }
+</script>
+
+<%- include('./partials/footer') %>

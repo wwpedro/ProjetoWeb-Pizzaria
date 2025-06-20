@@ -1,0 +1,71 @@
+<%- include('../partials/header') %>
+
+<h2>Lista de Pedidos</h2>
+
+<!-- Pedidos em Preparo -->
+<h3>🟡 Pedidos em Preparo</h3>
+<% pedidos.filter(p => p.status === 'Em preparo').forEach(pedido => { %>
+  <p>
+    Cliente: <%= pedido.nome_cliente %> |
+    Tipo: <%= pedido.tipo_atendimento %> |
+    <% if (pedido.tipo_atendimento === 'Mesa') { %>
+      Mesa: <%= pedido.numero_mesa %> |
+    <% } %>
+    Status: <%= pedido.status %>
+  </p>
+
+  <% if (isAdmin) { %>
+    <form action="/pedidos/<%= pedido.id %>/status" method="POST">
+      <select name="novoStatus">
+        <option value="Em preparo" <%= pedido.status === 'Em preparo' ? 'selected' : '' %>>Em preparo</option>
+        <option value="Pronto" <%= pedido.status === 'Pronto' ? 'selected' : '' %>>Pronto</option>
+        <option value="Entregue" <%= pedido.status === 'Entregue' ? 'selected' : '' %>>Entregue</option>
+      </select>
+      <button type="submit">Atualizar Status</button>
+    </form>
+  <% } %>
+
+  <hr>
+<% }) %>
+
+<!-- Pedidos Prontos -->
+<h3>🟢 Pedidos Prontos</h3>
+<% pedidos.filter(p => p.status === 'Pronto').forEach(pedido => { %>
+  <p>
+    Cliente: <%= pedido.nome_cliente %> |
+    Tipo: <%= pedido.tipo_atendimento %> |
+    <% if (pedido.tipo_atendimento === 'Mesa') { %>
+      Mesa: <%= pedido.numero_mesa %> |
+    <% } %>
+    Status: <%= pedido.status %>
+  </p>
+
+  <% if (isAdmin) { %>
+    <form action="/pedidos/<%= pedido.id %>/status" method="POST">
+      <select name="novoStatus">
+        <option value="Em preparo" <%= pedido.status === 'Em preparo' ? 'selected' : '' %>>Em preparo</option>
+        <option value="Pronto" <%= pedido.status === 'Pronto' ? 'selected' : '' %>>Pronto</option>
+        <option value="Entregue" <%= pedido.status === 'Entregue' ? 'selected' : '' %>>Entregue</option>
+      </select>
+      <button type="submit">Atualizar Status</button>
+    </form>
+  <% } %>
+
+  <hr>
+<% }) %>
+
+<!-- Histórico de Pedidos Entregues -->
+<h3>📦 Histórico de Pedidos Entregues</h3>
+<% pedidos.filter(p => p.status === 'Entregue').forEach(pedido => { %>
+  <p>
+    Cliente: <%= pedido.nome_cliente %> |
+    Tipo: <%= pedido.tipo_atendimento %> |
+    <% if (pedido.tipo_atendimento === 'Mesa') { %>
+      Mesa: <%= pedido.numero_mesa %> |
+    <% } %>
+    Status: <%= pedido.status %>
+  </p>
+  <hr>
+<% }) %>
+
+<%- include('../partials/footer') %>

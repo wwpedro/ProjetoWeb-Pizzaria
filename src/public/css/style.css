@@ -1,0 +1,138 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #fff8f0;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  text-align: center; /* Centraliza os textos por padrão */
+}
+
+h1, h2, h3 {
+  color: #b30000;
+  text-align: center;
+}
+
+nav {
+  background-color: #ffe6cc;
+  padding: 15px 0;
+}
+
+nav a {
+  margin: 0 15px;
+  text-decoration: none;
+  color: #b30000;
+  font-weight: bold;
+  padding: 8px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+nav a:hover {
+  background-color: #ffcc99;
+  color: #800000;
+}
+
+form {
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff3e6;
+  border: 1px solid #ffcc99;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 400px;
+  text-align: left; /* Para os labels e inputs ficarem alinhados */
+}
+
+form input[type="text"],
+form input[type="number"],
+form input[type="password"],
+form select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+form button,
+button {
+  background-color: #ff9900;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+form button:hover,
+button:hover {
+  background-color: #e67300;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 20px auto;
+  width: 90%;
+  max-width: 400px;
+}
+
+ul li {
+  background-color: #fff3e6;
+  padding: 12px;
+  border-bottom: 1px solid #ffcc99;
+  text-align: left;
+}
+
+ul li:last-child {
+  border-bottom: none;
+}
+
+hr {
+  margin: 20px 0;
+  border: 0;
+  height: 1px;
+  background: #ffcc99;
+}
+
+footer {
+  text-align: center;
+  padding: 15px;
+  margin-top: 30px;
+  background-color: #ffe6cc;
+  color: #b30000;
+  font-weight: bold;
+}
+
+#loginAdmin {
+  margin-top: 15px;
+}
+
+button {
+  margin-top: 10px;
+}
+
+h2, h3, p, ul, form, div {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+div#areaPizzas, div#areaBebidas, div#campoMesa, div#campoEndereco {
+  text-align: left;
+}
+
+a.button-link {
+  display: inline-block;
+  background-color: #ff9900;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 6px;
+}
+
+a.button-link:hover {
+  background-color: #e67300;
+}

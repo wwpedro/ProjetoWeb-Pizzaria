@@ -1,0 +1,35 @@
+<%- include('../partials/header') %>
+
+<h2>Adicionar ao Cardápio 🍽️</h2>
+
+<div style="display: flex; gap: 50px;">
+
+  <!-- Formulário de Sabores -->
+  <form action="/cardapio/sabor" method="POST">
+    <h3>Adicionar Novo Sabor de Pizza 🍕</h3>
+    <label>Nome do Sabor:</label><br>
+    <input type="text" name="nome" required><br><br>
+
+    <label>Preço:</label><br>
+    <input type="number" name="preco" step="0.01" required><br><br>
+
+    <button type="submit">Salvar Sabor</button><br><br>
+    <a href="/sabores"><button type="button">Ver Lista de Sabores</button></a>
+  </form>
+
+  <!-- Formulário de Bebidas -->
+  <form action="/cardapio/bebida" method="POST">
+    <h3>Adicionar Nova Bebida 🥤</h3>
+    <label>Nome da Bebida:</label><br>
+    <input type="text" name="nome" required><br><br>
+
+    <label>Preço:</label><br>
+    <input type="number" name="preco" step="0.01" required><br><br>
+
+    <button type="submit">Salvar Bebida</button><br><br>
+    <a href="/bebidas"><button type="button">Ver Lista de Bebidas</button></a>
+  </form>
+
+</div>
+
+<%- include('../partials/footer') %>

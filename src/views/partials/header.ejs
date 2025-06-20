@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Pizzaria do Pedro 🍕</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <h1>Pizzaria do Pedro 🍕</h1>
+  <nav>
+    <a href="/">Home</a> |
+
+    <% if (typeof isAdmin !== 'undefined' && isAdmin) { %>
+      <a href="/pedidos">Pedidos (Admin)</a> |
+      <a href="/pedidos/novo">Fazer Pedido</a> |
+      <a href="/cardapio">Adicionar ao Cardápio</a> |
+      <a href="/sabores">Listar Sabores</a> |
+      <a href="/bebidas">Listar Bebidas</a> |
+      <a href="/logout">Logout</a>
+    <% } else { %>
+      <a href="/pedidos/cliente">Ver Pedidos (Cliente)</a> |
+      <a href="/pedidos/novo">Fazer Pedido</a>
+    <% } %>
+  </nav>
+  <hr>

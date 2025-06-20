@@ -1,0 +1,162 @@
+<%- include('../partials/header') %>
+
+  <h2>Monte seu Pedido 🍕</h2>
+
+  <form action="/pedidos" method="POST" onsubmit="return validarPedido()">
+
+    <!-- Nome do Cliente -->
+    <label>Nome do Cliente:</label>
+    <input type="text" name="nomeCliente" required><br><br>
+
+    <!-- Tipo de Atendimento -->
+    <label>Tipo de Atendimento:</label>
+    <select name="tipoAtendimento" required onchange="mostrarCampos()">
+      <option value="">Selecione</option>
+      <option value="Mesa">Mesa</option>
+      <option value="Retirada">Retirada (buscar na loja)</option>
+      <option value="Entrega">Entrega (informar endereço)</option>
+    </select><br><br>
+
+    <div id="campoMesa" style="display:none;">
+      <label>Número da Mesa:</label>
+      <input type="number" name="numeroMesa" min="1"><br><br>
+    </div>
+
+    <div id="campoEndereco" style="display:none;">
+      <label>Endereço:</label>
+      <input type="text" name="endereco"><br><br>
+    </div>
+
+    <label>Quantidade de Pizzas:</label><br>
+    <input type="number" id="quantidadePizzas" name="quantidadePizzas" min="1" required><br><br>
+    <button type="button" onclick="iniciarSelecao()">Iniciar Montagem de Pizzas</button>
+
+    <div id="areaPizzas" style="display:none;">
+      <h3 id="tituloPizza"></h3>
+
+      <p>Escolha até 2 sabores para esta pizza:</p>
+      <% sabores.forEach(sabor=> { %>
+        <label>
+          <input type="checkbox" name="saboresPizza" value="<%= sabor.id %>" data-preco="<%= sabor.preco %>"
+            onchange="limitarSabores()">
+          <%= sabor.nome %> (R$ <%= sabor.preco.toFixed(2) %>)
+        </label><br>
+        <% }) %>
+
+          <br>
+          <button type="button" onclick="salvarPizza()">Próxima Pizza</button>
+    </div>
+
+    <div id="areaBebidas" style="display:none;">
+      <h3>Escolha suas Bebidas:</h3>
+      <% bebidas.forEach(bebida=> { %>
+        <label>
+          <input type="checkbox" name="bebidasSelecionadas" value="<%= bebida.id %>" data-preco="<%= bebida.preco %>"
+            onchange="atualizarTotal()">
+          <%= bebida.nome %> (R$ <%= bebida.preco.toFixed(2) %>)
+        </label>
+        Quantidade:
+        <input type="number" name="quantidadeBebida_<%= bebida.id %>" min="0" value="0" onchange="atualizarTotal()"><br>
+        <% }) %>
+
+          <br>
+        <button type="submit">Concluir Pedido</button>
+    </div>
+    <h3 id="precoTotal">💰 Total estimado: R$ 0.00</h3>
+    
+
+  </form>
+
+  <script>
+    let quantidadeTotal = 0;
+    let pizzasEscolhidas = [];
+    let pizzaAtual = 1;
+    let precoTotal = 0;
+
+    function mostrarCampos() {
+      const tipo = document.querySelector('select[name="tipoAtendimento"]').value;
+      document.getElementById('campoMesa').style.display = (tipo === 'Mesa') ? 'block' : 'none';
+      document.getElementById('campoEndereco').style.display = (tipo === 'Entrega') ? 'block' : 'none';
+    }
+
+    function iniciarSelecao() {
+      quantidadeTotal = parseInt(document.getElementById('quantidadePizzas').value);
+      if (quantidadeTotal <= 0 || isNaN(quantidadeTotal)) {
+        alert('Informe a quantidade de pizzas primeiro!');
+        return;
+      }
+      document.getElementById('areaPizzas').style.display = 'block';
+      atualizarTitulo();
+    }
+
+    function limitarSabores() {
+      const checkboxes = document.querySelectorAll('input[name="saboresPizza"]');
+      const selecionados = Array.from(checkboxes).filter(c => c.checked);
+      if (selecionados.length > 2) {
+        alert('Você só pode selecionar até 2 sabores por pizza.');
+        selecionados[selecionados.length - 1].checked = false;
+      }
+    }
+
+    function salvarPizza() {
+      const selecionados = Array.from(document.querySelectorAll('input[name="saboresPizza"]:checked'));
+      if (selecionados.length === 0 || selecionados.length > 2) {
+        alert('Selecione 1 ou 2 sabores para esta pizza.');
+        return;
+      }
+
+      const ids = selecionados.map(c => c.value);
+      const precoSabores = selecionados.reduce((total, c) => total + parseFloat(c.getAttribute('data-preco')), 0);
+      precoTotal += precoSabores;
+
+      pizzasEscolhidas.push(ids);
+      document.querySelectorAll('input[name="saboresPizza"]').forEach(c => c.checked = false);
+
+      if (pizzaAtual < quantidadeTotal) {
+        pizzaAtual++;
+        atualizarTitulo();
+      } else {
+        finalizarSabores();
+      }
+    }
+
+    function atualizarTitulo() {
+      document.getElementById('tituloPizza').innerText = `Pizza ${pizzaAtual} de ${quantidadeTotal}`;
+    }
+
+    function finalizarSabores() {
+      document.getElementById('areaPizzas').style.display = 'none';
+      document.getElementById('areaBebidas').style.display = 'block';
+
+      const form = document.querySelector('form');
+      const hiddenInput = document.createElement('input');
+      hiddenInput.type = 'hidden';
+      hiddenInput.name = 'pizzasSabores';
+      hiddenInput.value = JSON.stringify(pizzasEscolhidas);
+      form.appendChild(hiddenInput);
+
+      atualizarTotal();
+    }
+
+    function atualizarTotal() {
+      let bebidasSelecionadas = document.querySelectorAll('input[name="bebidasSelecionadas"]:checked');
+      let totalBebidas = 0;
+
+      bebidasSelecionadas.forEach(bebidaCheckbox => {
+        const id = bebidaCheckbox.value;
+        const precoUnitario = parseFloat(bebidaCheckbox.getAttribute('data-preco')) || 0;
+        const quantidade = parseInt(document.querySelector(`input[name="quantidadeBebida_${id}"]`).value) || 0;
+        totalBebidas += precoUnitario * quantidade;
+      });
+
+      const totalFinal = precoTotal + totalBebidas;
+      document.getElementById('precoTotal').innerText = `💰 Total estimado: R$ ${totalFinal.toFixed(2)}`;
+    }
+
+    function validarPedido() {
+      atualizarTotal();
+      return true;
+    }
+  </script>
+
+  <%- include('../partials/footer') %>
