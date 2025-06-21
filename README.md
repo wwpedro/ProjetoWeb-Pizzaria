@@ -81,6 +81,10 @@ http://localhost:3000
 
 ---
 
+## 📋 Senha Login ADM: 123
+
+---
+
 ## ✅ Funcionalidades:
 
 * 📋 Tela inicial com escolha entre **Cliente** ou **Administrador**
